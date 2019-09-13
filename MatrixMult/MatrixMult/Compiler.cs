@@ -155,6 +155,7 @@ namespace MatrixMult {
                 } // Операторы
                 if (isReady) {
 
+                    writer.WriteLine("Coeff: " + coeff1);
                     for (int y = 0; y < mStr1; ++y) {
                         for (int r = 0; r < mCol1; ++r) {
                             writer.Write(matrix1[y, r] + "\t"); 
@@ -163,6 +164,7 @@ namespace MatrixMult {
                     }
 
                     writer.WriteLine(oper);
+                    writer.WriteLine("\nCoeff: " + coeff2);
                     for (int y = 0; y < mStr2; ++y) {
                         for (int r = 0; r < mCol2; ++r) {
                             writer.Write(matrix2[y, r] + "\t");
@@ -171,6 +173,7 @@ namespace MatrixMult {
                     }
 
                     writer.WriteLine("-->");
+                    writer.WriteLine("Coeff: " + coeff3);
                     for (int y = 0; y < mStr3; ++y) {
                         for (int r = 0; r < mCol3; ++r) {
                             writer.Write(matrix3[y, r] + "\t");
