@@ -25,7 +25,9 @@ namespace MatrixMult {
         int sMatCol;
         int tMatStr;
         int tMatCol;
+
         TextBox[] textBoxes;
+
         double[,] MatrixOne;
         double[,] MatrixTwo;
         double[,] MatrixResult;
@@ -41,21 +43,22 @@ namespace MatrixMult {
             textBoxes[3] = MSecStrs;
             state = States.before;
         }
+        // START
         private void Button1_Click(object sender, EventArgs e) {
 
             if (state == States.before) {
 
                 if (Operation.SelectedIndex == 0) {
 
-                    string eror = "";
-                    bool willContinue = findingErrors(out eror);
+                    string error = "";
+                    bool willContinue = findingErrors(out error);
 
                     if (MFirstCols.Text != "" && MSecStrs.Text != "" && int.Parse(MFirstCols.Text) != int.Parse(MSecStrs.Text)) {
-                        eror = "Количество столбцов первой матрицы != количеству строк второй матрицы";
+                        error = "Количество столбцов первой матрицы != количеству строк второй матрицы";
                         willContinue = false;
                     }
                     if (willContinue == false) {
-                        Debug.Text = eror;
+                        Debug.Text = error;
                     }
                     else {
 
@@ -105,10 +108,10 @@ namespace MatrixMult {
                     }
                 }
                 else if (Operation.SelectedIndex == 1) { // Сложение
-                    string eror = "";
-                    bool willContinue = findingErrors(out eror);
+                    string error = "";
+                    bool willContinue = findingErrors(out error);
                     if (willContinue == false) {
-                        Debug.Text = eror;
+                        Debug.Text = error;
                         return;
                     }
                     if (int.Parse(MFirstCols.Text) != int.Parse(MSecCols.Text) || int.Parse(MFirstStrs.Text) != int.Parse(MSecStrs.Text)) {
@@ -161,10 +164,10 @@ namespace MatrixMult {
                 }
                 else if (Operation.SelectedIndex == 2) { // Вычитание
 
-                    string eror = "";
-                    bool willContinue = findingErrors(out eror);
+                    string error = "";
+                    bool willContinue = findingErrors(out error);
                     if (willContinue == false) {
-                        Debug.Text = eror;
+                        Debug.Text = error;
                         return;
                     }
                     if (int.Parse(MFirstCols.Text) != int.Parse(MSecCols.Text) || int.Parse(MFirstStrs.Text) != int.Parse(MSecStrs.Text)) {
@@ -214,6 +217,8 @@ namespace MatrixMult {
 
                     state = States.input;
                 }
+                else if (Operation.SelectedIndex == -1)
+                    Debug.Text = "Выберите операцию над матрицами";
                 else
                     Debug.Text = "Бред какой-то xD";
             }
@@ -221,44 +226,7 @@ namespace MatrixMult {
                 Debug.Text = "Вы уже начали вычисление умножения матриц!";
             }
         }
-
-        bool findingErrors(out string eror) {
-
-            bool willContinue = true;
-            eror = "";
-            for (int i = 0; i < 4; ++i) {
-                if (textBoxes[i].Text == "") {
-                    willContinue = false;
-                    eror += "Не введен параметр в " + (i + 1) + " строке. \t";
-                }
-            }
-            for (int i = 0; i < 4; ++i) {
-                for (int j = 0; j < textBoxes[i].Text.Length; ++j) {
-                    if (textBoxes[i].Text[j] < 48 || textBoxes[i].Text[j] > 57) {
-                        eror += "В поле " + (i + 1) + " вы ввели не числовое значение! \t";
-                        willContinue = false;
-                        break;
-                    }
-                }
-            }
-            return willContinue;
-        }
-
-
-
-        void changeScene(bool isVisible) {
-
-            for (int i = 0; i < textBoxes.Length; ++i)
-                textBoxes[i].Visible = isVisible;
-
-            textBox1.Visible = isVisible;
-            textBox2.Visible = isVisible;
-            textBox3.Visible = isVisible;
-            textBox4.Visible = isVisible;
-            Operation.Visible = isVisible;
-            OperText.Visible = isVisible;
-
-        }
+        // CALC
         void Next_Click(object sender, EventArgs e) {
 
             bool doWeGo = false;
@@ -308,6 +276,14 @@ namespace MatrixMult {
 
                         int oper = Operation.SelectedIndex;
 
+                        string temp = Coefficient.Text;
+                        double coeff = 0;
+
+                        if (temp == "")
+                            coeff = 1;
+
+                        coeff = double.Parse(temp);
+
                         switch (oper) {
 
                             case 0:
@@ -317,6 +293,7 @@ namespace MatrixMult {
                                     for (int t = 0; t < fMatCol; ++t) {
                                         MatrixResult[i, j] += (MatrixOne[i, t] * MatrixTwo[t, j]);
                                     }
+                                    MatrixResult[i, j] *= coeff;
                                 }
                             }
 
@@ -328,11 +305,10 @@ namespace MatrixMult {
 
                             case 1:
 
-                                Debug.Text = "2";
-
                                 for (int i = 0; i < fMatStr; ++i) {
                                     for (int j = 0; j < fMatCol; ++j) {
                                         MatrixResult[i, j] = MatrixOne[i, j] + MatrixTwo[i, j];
+                                        MatrixResult[i, j] *= coeff;
                                     }
                                 }
 
@@ -345,11 +321,10 @@ namespace MatrixMult {
 
                             case 2:
 
-                                Debug.Text = "3";
-
                                 for (int i = 0; i < fMatStr; ++i) {
                                     for (int j = 0; j < fMatCol; ++j) {
                                         MatrixResult[i, j] = MatrixOne[i, j] - MatrixTwo[i, j];
+                                        MatrixResult[i, j] *= coeff;
                                     }
                                 }
 
@@ -374,44 +349,30 @@ namespace MatrixMult {
                 break;
             }
         }
-        private void Do_Clear_Click(object sender, EventArgs e) {
-            changeScene(true);
-            for (int i = 0; i < textBoxes.Length; ++i)
-                textBoxes[i].Text = "";
-            Debug.Text = "";
-            
-            if (state != States.before) {
-                int j = FMatrix.Columns.Count - 1;
-                for (; j >= 0; --j)
-                    FMatrix.Columns.Remove(FMatrix.Columns[j]);
 
-                int k = SMatrix.Columns.Count - 1;
-                for (; k >= 0; --k)
-                    SMatrix.Columns.Remove(SMatrix.Columns[k]);
-
-                int l = RMatrix.Columns.Count - 1;
-                for (; l >= 0; --l)
-                    RMatrix.Columns.Remove(RMatrix.Columns[l]);
-            }
-
-            state = States.before;
+        private void CopyF_Click(object sender, EventArgs e) {
+            copyMatrix(1);
+        }
+        private void SetF_Click(object sender, EventArgs e) {
+            setMatrix(1);
         }
 
-        /*********************** HELP ***********************/
-        private void TextBox5_TextChanged(object sender, EventArgs e) { // Столбцов в первой матрице
-
+        private void CopyS_Click(object sender, EventArgs e) {
+            copyMatrix(2);
         }
-        private void TextBox6_TextChanged(object sender, EventArgs e) { // Строк в первой матрице
-
+        private void SetS_Click(object sender, EventArgs e) {
+            setMatrix(2);
         }
-        private void TextBox7_TextChanged(object sender, EventArgs e) { // Столбцов во второй матрице
 
+        private void CopyT_Click(object sender, EventArgs e) {
+            copyMatrix(3);
         }
-        private void TextBox8_TextChanged(object sender, EventArgs e) { // Строк во второй матрице
-
+        private void SetT_Click(object sender, EventArgs e) {
+            setMatrix(3);
         }
-        private void TextBox9_TextChanged(object sender, EventArgs e) { // Выводы ошибок
 
+        private void RunCode_Click(object sender, EventArgs e) {
+            readMatrixFile(PathIN.Text, PathOUT.Text, false);
         }
     }
 }
