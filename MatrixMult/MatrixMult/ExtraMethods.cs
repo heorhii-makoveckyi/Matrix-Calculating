@@ -120,34 +120,6 @@ namespace MatrixMult {
                     break;
             }
         }
-        void readMatrixFile(string pathIN, string pathOUT, bool isSTDView) {
-
-            StreamReader reader = new StreamReader(pathIN);
-            StreamWriter writer = new StreamWriter(pathOUT);
-
-            string matrixReader = "";
-            while (matrixReader != "Start;") {
-                matrixReader = reader.ReadLine();
-            }
-            string temp = "";
-            while (temp != "End;"){
-                temp = reader.ReadLine();
-                matrixReader += temp;
-            }
-
-            string[] matrix = matrixReader.Split(';');
-
-            //DEBUG
-            string mr = "";
-            for (int i = 0; i < matrix.Length; ++i) {
-                mr += matrix[i] + '\n';
-            }
-            MessageBox.Show(mr);
-            //DEBUG
-
-            reader.Close();
-            writer.Close();
-        }
 
         bool findingErrors(out string error) {
 

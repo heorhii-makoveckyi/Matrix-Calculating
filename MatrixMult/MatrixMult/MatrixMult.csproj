@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compiler.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ExtraMethods.cs">
       <SubType>Form</SubType>
     </Compile>
