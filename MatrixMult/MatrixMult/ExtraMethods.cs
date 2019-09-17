@@ -21,7 +21,7 @@ namespace MatrixMult {
                         for (int j = 0; j < fMatCol; ++j) {
 
                             if (FMatrix.Rows[i].Cells[j].Value.ToString() == "") {
-                                Debug.Text = "Сначала заполните матрицу!";
+                                Debug.Text = "Fill matrix!";
                                 return;
                             }
 
@@ -37,7 +37,7 @@ namespace MatrixMult {
                     for (int i = 0; i < sMatStr; ++i) {
                         for (int j = 0; j < sMatCol; ++j) {
                             if (SMatrix.Rows[i].Cells[j].Value.ToString() == "") {
-                                Debug.Text = "Сначала заполните матрицу!";
+                                Debug.Text = "Fill matrix!";
                                 return;
                             }
 
@@ -53,7 +53,7 @@ namespace MatrixMult {
                     for (int i = 0; i < tMatStr; ++i) {
                         for (int j = 0; j < tMatCol; ++j) {
                             if (RMatrix.Rows[i].Cells[j].Value.ToString() == "") {
-                                Debug.Text = "Сначала заполните матрицу!";
+                                Debug.Text = "Fill matrix!";
                                 return;
                             }
 
@@ -70,9 +70,9 @@ namespace MatrixMult {
             MessageBox.Show(matrixClip);
 
             if (matrixClip[0] != '#' && matrixClip[1] != '_') {
-                Debug.Text = "Не соответствует шаблону:\t #_строки_столбцы_значение1_значение2_..._";
+                Debug.Text = "Does not match pattern:\t #_rows_cols_value1_value2_..._";
             }
-            string[] matrix = matrixClip.Split('_'); //matrix[0] - вспомогательный элемент, не надо брать его значение
+            string[] matrix = matrixClip.Split('_'); //matrix[0] - help elem
             int str = int.Parse(matrix[1]);
             int col = int.Parse(matrix[2]);
 
@@ -82,7 +82,7 @@ namespace MatrixMult {
 
                 case 1:
                     if (fMatStr != str || fMatCol != col) {
-                        Debug.Text = "Скопированная матрица не подходит из-за несоответствий размеров";
+                        Debug.Text = "Copied matrix does not fit";
                         return;
                     }
                     for (int i = 0; i < fMatStr; ++i) {
@@ -95,7 +95,7 @@ namespace MatrixMult {
 
                 case 2:
                     if (sMatStr != str || sMatCol != col) {
-                        Debug.Text = "Скопированная матрица не подходит из-за несоответствий размеров";
+                        Debug.Text = "Copied matrix does not fit";
                         return;
                     }
                     for (int i = 0; i < sMatStr; ++i) {
@@ -108,7 +108,7 @@ namespace MatrixMult {
 
                 case 3:
                     if (tMatStr != str || tMatCol != col) {
-                        Debug.Text = "Скопированная матрица не подходит из-за несоответствий размеров";
+                        Debug.Text = "Copied matrix does not fit";
                         return;
                     }
                     for (int i = 0; i < tMatStr; ++i) {
@@ -128,13 +128,13 @@ namespace MatrixMult {
             for (int i = 0; i < 4; ++i) {
                 if (textBoxes[i].Text == "") {
                     willContinue = false;
-                    error += "Не введен параметр в " + (i + 1) + " строке. \t";
+                    error += "Wasnt inputed value in " + (i + 1) + " row. \t";
                 }
             }
             for (int i = 0; i < 4; ++i) {
                 for (int j = 0; j < textBoxes[i].Text.Length; ++j) {
                     if (textBoxes[i].Text[j] < 48 || textBoxes[i].Text[j] > 57) {
-                        error += "В поле " + (i + 1) + " вы ввели не числовое значение! \t";
+                        error += "In field " + (i + 1) + " you havent inputed num value! \t";
                         willContinue = false;
                         break;
                     }
@@ -181,9 +181,6 @@ namespace MatrixMult {
 
             state = States.before;
         }
-
-
-
 
 
         /*********************** HELP ***********************/

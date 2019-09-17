@@ -54,7 +54,7 @@ namespace MatrixMult {
                     bool willContinue = findingErrors(out error);
 
                     if (MFirstCols.Text != "" && MSecStrs.Text != "" && int.Parse(MFirstCols.Text) != int.Parse(MSecStrs.Text)) {
-                        error = "Количество столбцов первой матрицы != количеству строк второй матрицы";
+                        error = "Count of cols first matrix != count of rows second matrix";
                         willContinue = false;
                     }
                     if (willContinue == false) {
@@ -107,7 +107,7 @@ namespace MatrixMult {
                         state = States.input;
                     }
                 }
-                else if (Operation.SelectedIndex == 1) { // Сложение
+                else if (Operation.SelectedIndex == 1) { // addition
                     string error = "";
                     bool willContinue = findingErrors(out error);
                     if (willContinue == false) {
@@ -115,7 +115,7 @@ namespace MatrixMult {
                         return;
                     }
                     if (int.Parse(MFirstCols.Text) != int.Parse(MSecCols.Text) || int.Parse(MFirstStrs.Text) != int.Parse(MSecStrs.Text)) {
-                        Debug.Text = "Количество столбцов или строк в матрицах разное";
+                        Debug.Text = "Count of cols and rows in matrixes are different";
                         return;
                     }
 
@@ -162,7 +162,7 @@ namespace MatrixMult {
                     state = States.input;
 
                 }
-                else if (Operation.SelectedIndex == 2) { // Вычитание
+                else if (Operation.SelectedIndex == 2) { // subtraction
 
                     string error = "";
                     bool willContinue = findingErrors(out error);
@@ -171,7 +171,7 @@ namespace MatrixMult {
                         return;
                     }
                     if (int.Parse(MFirstCols.Text) != int.Parse(MSecCols.Text) || int.Parse(MFirstStrs.Text) != int.Parse(MSecStrs.Text)) {
-                        Debug.Text = "Количество столбцов или строк в матрицах разное";
+                        Debug.Text = "Count of cols and rows in matrixes are different";
                         return;
                     }
 
@@ -218,12 +218,12 @@ namespace MatrixMult {
                     state = States.input;
                 }
                 else if (Operation.SelectedIndex == -1)
-                    Debug.Text = "Выберите операцию над матрицами";
+                    Debug.Text = "Choose operator for resolving";
                 else
-                    Debug.Text = "Бред какой-то xD";
+                    Debug.Text = "Lol what";
             }
             else {
-                Debug.Text = "Вы уже начали вычисление умножения матриц!";
+                Debug.Text = "You just started calculation matrixes";
             }
         }
         // CALC
@@ -234,12 +234,12 @@ namespace MatrixMult {
             switch (state) {
 
                 case States.input:
-                    // Взятие значений из первой матрицы
+                    // Taking values from 1-st matrix
                     for (int i = 0; i < fMatStr; ++i) {
                         for (int j = 0; j < fMatCol; ++j) {
                             string valuev = FMatrix.Rows[i].Cells[j].Value.ToString();
                             if (valuev == "") {
-                                Debug.Text = "Пустые поля недопустимы, введите 0!";
+                                Debug.Text = "Empty fields cannot be existing. Input 0!";
                                 return;
                             }
                             doWeGo = true;
@@ -253,12 +253,12 @@ namespace MatrixMult {
                         }
                     }
                     doWeGo = false;
-                    // Взятие значений из второй матрицы
+                    // Taking values from 2-nd matrix
                     for (int i = 0; i < sMatStr; ++i) {
                         for (int j = 0; j < sMatCol; ++j) {
                             string valuev = SMatrix.Rows[i].Cells[j].Value.ToString();
                             if (valuev == "") {
-                                Debug.Text = "Пустые поля недопустимы, введите 0!";
+                                Debug.Text = "Empty fields cannot be existing. Input 0!";
                                 return;
                             }
                             doWeGo = true;
@@ -272,7 +272,7 @@ namespace MatrixMult {
                             }
                         }
 
-                        // Вывод результата в 3-ью матрицу
+                        // Input results to 3-rd matrix
 
                         int oper = Operation.SelectedIndex;
 
@@ -341,10 +341,10 @@ namespace MatrixMult {
                     break;
                     
                 case States.before:
-                    Debug.Text = "Не та кнопка)";
+                    Debug.Text = "Not this button)";
                 break;
                 case States.solved:
-                    Debug.Text = "Дальше некуда. Теперь можно только очистить всё и начать заново)";
+                    Debug.Text = "No way xD. Press Clear)";
 
                 break;
             }

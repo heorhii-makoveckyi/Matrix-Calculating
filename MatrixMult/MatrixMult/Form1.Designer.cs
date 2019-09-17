@@ -71,7 +71,7 @@
             this.Start.Name = "Start";
             this.Start.Size = new System.Drawing.Size(229, 77);
             this.Start.TabIndex = 0;
-            this.Start.Text = "Старт";
+            this.Start.Text = "Start";
             this.Start.UseVisualStyleBackColor = true;
             this.Start.Click += new System.EventHandler(this.Button1_Click);
             // 
@@ -82,7 +82,7 @@
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(151, 20);
             this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "Столбцов в первой матрице";
+            this.textBox1.Text = "Cols in first matrix";
             // 
             // textBox2
             // 
@@ -91,7 +91,7 @@
             this.textBox2.ReadOnly = true;
             this.textBox2.Size = new System.Drawing.Size(152, 20);
             this.textBox2.TabIndex = 2;
-            this.textBox2.Text = "Строк в первой матрице";
+            this.textBox2.Text = "Rows in first matrix";
             // 
             // textBox3
             // 
@@ -100,7 +100,7 @@
             this.textBox3.ReadOnly = true;
             this.textBox3.Size = new System.Drawing.Size(152, 20);
             this.textBox3.TabIndex = 3;
-            this.textBox3.Text = "Столбцов во второй матрице";
+            this.textBox3.Text = "Cols in second matrix";
             // 
             // textBox4
             // 
@@ -109,7 +109,7 @@
             this.textBox4.ReadOnly = true;
             this.textBox4.Size = new System.Drawing.Size(152, 20);
             this.textBox4.TabIndex = 4;
-            this.textBox4.Text = "Строк во второй матрице";
+            this.textBox4.Text = "Rows in second matrix";
             // 
             // MFirstCols
             // 
@@ -168,7 +168,7 @@
             this.Next.Name = "Next";
             this.Next.Size = new System.Drawing.Size(229, 77);
             this.Next.TabIndex = 11;
-            this.Next.Text = "Посчитать";
+            this.Next.Text = "Calculate";
             this.Next.UseVisualStyleBackColor = true;
             this.Next.Click += new System.EventHandler(this.Next_Click);
             // 
@@ -178,7 +178,7 @@
             this.Do_Clear.Name = "Do_Clear";
             this.Do_Clear.Size = new System.Drawing.Size(220, 77);
             this.Do_Clear.TabIndex = 12;
-            this.Do_Clear.Text = "Очистить";
+            this.Do_Clear.Text = "Clear";
             this.Do_Clear.UseVisualStyleBackColor = true;
             this.Do_Clear.Click += new System.EventHandler(this.Do_Clear_Click);
             // 
@@ -204,9 +204,9 @@
             // 
             this.Operation.FormattingEnabled = true;
             this.Operation.Items.AddRange(new object[] {
-            "Умножение",
-            "Сложение",
-            "Вычитание"});
+            "*",
+            "+",
+            "-"});
             this.Operation.Location = new System.Drawing.Point(186, 181);
             this.Operation.Name = "Operation";
             this.Operation.Size = new System.Drawing.Size(83, 21);
@@ -219,7 +219,7 @@
             this.OperText.ReadOnly = true;
             this.OperText.Size = new System.Drawing.Size(152, 20);
             this.OperText.TabIndex = 16;
-            this.OperText.Text = "Выберите операцию";
+            this.OperText.Text = "Choose operation";
             // 
             // textBox5
             // 
@@ -228,7 +228,7 @@
             this.textBox5.ReadOnly = true;
             this.textBox5.Size = new System.Drawing.Size(605, 20);
             this.textBox5.TabIndex = 17;
-            this.textBox5.Text = "Первая матрица";
+            this.textBox5.Text = "First matrix";
             this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox6
@@ -238,7 +238,7 @@
             this.textBox6.ReadOnly = true;
             this.textBox6.Size = new System.Drawing.Size(605, 20);
             this.textBox6.TabIndex = 18;
-            this.textBox6.Text = "Вторая матрица";
+            this.textBox6.Text = "Second matrix";
             this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox6.TextChanged += new System.EventHandler(this.TextBox6_TextChanged_1);
             // 
@@ -249,7 +249,7 @@
             this.textBox7.ReadOnly = true;
             this.textBox7.Size = new System.Drawing.Size(606, 20);
             this.textBox7.TabIndex = 19;
-            this.textBox7.Text = "Результирующая матрица";
+            this.textBox7.Text = "Resolting matrix";
             this.textBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox8
@@ -259,7 +259,7 @@
             this.textBox8.ReadOnly = true;
             this.textBox8.Size = new System.Drawing.Size(605, 20);
             this.textBox8.TabIndex = 20;
-            this.textBox8.Text = "\"Помощник\"";
+            this.textBox8.Text = "Helper";
             this.textBox8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox9
@@ -270,7 +270,7 @@
             this.textBox9.ReadOnly = true;
             this.textBox9.Size = new System.Drawing.Size(152, 20);
             this.textBox9.TabIndex = 21;
-            this.textBox9.Text = "Умножить рез. матрицу на";
+            this.textBox9.Text = "Multiplie res. matrix";
             // 
             // Coefficient
             // 
@@ -285,7 +285,7 @@
             this.SetF.Name = "SetF";
             this.SetF.Size = new System.Drawing.Size(121, 23);
             this.SetF.TabIndex = 23;
-            this.SetF.Text = "Вставить";
+            this.SetF.Text = "Paste";
             this.SetF.UseVisualStyleBackColor = true;
             this.SetF.Click += new System.EventHandler(this.SetF_Click);
             // 
@@ -295,7 +295,7 @@
             this.CopyF.Name = "CopyF";
             this.CopyF.Size = new System.Drawing.Size(121, 23);
             this.CopyF.TabIndex = 24;
-            this.CopyF.Text = "Копировать";
+            this.CopyF.Text = "Copy";
             this.CopyF.UseVisualStyleBackColor = true;
             this.CopyF.Click += new System.EventHandler(this.CopyF_Click);
             // 
@@ -305,7 +305,7 @@
             this.CopyS.Name = "CopyS";
             this.CopyS.Size = new System.Drawing.Size(121, 23);
             this.CopyS.TabIndex = 25;
-            this.CopyS.Text = "Копировать ";
+            this.CopyS.Text = "Copy";
             this.CopyS.UseVisualStyleBackColor = true;
             this.CopyS.Click += new System.EventHandler(this.CopyS_Click);
             // 
@@ -315,7 +315,7 @@
             this.SetS.Name = "SetS";
             this.SetS.Size = new System.Drawing.Size(121, 23);
             this.SetS.TabIndex = 26;
-            this.SetS.Text = "Вставить";
+            this.SetS.Text = "Paste";
             this.SetS.UseVisualStyleBackColor = true;
             this.SetS.Click += new System.EventHandler(this.SetS_Click);
             // 
@@ -325,7 +325,7 @@
             this.CopyT.Name = "CopyT";
             this.CopyT.Size = new System.Drawing.Size(117, 23);
             this.CopyT.TabIndex = 29;
-            this.CopyT.Text = "Копировать";
+            this.CopyT.Text = "Copy";
             this.CopyT.UseVisualStyleBackColor = true;
             this.CopyT.Click += new System.EventHandler(this.CopyT_Click);
             // 
@@ -335,7 +335,7 @@
             this.SetT.Name = "SetT";
             this.SetT.Size = new System.Drawing.Size(120, 23);
             this.SetT.TabIndex = 31;
-            this.SetT.Text = "Вставить";
+            this.SetT.Text = "Paste";
             this.SetT.UseVisualStyleBackColor = true;
             this.SetT.Click += new System.EventHandler(this.SetT_Click);
             // 
@@ -345,7 +345,7 @@
             this.runCode.Name = "runCode";
             this.runCode.Size = new System.Drawing.Size(118, 46);
             this.runCode.TabIndex = 32;
-            this.runCode.Text = "\"Выполнить код\"";
+            this.runCode.Text = "Run";
             this.runCode.UseVisualStyleBackColor = true;
             this.runCode.Click += new System.EventHandler(this.RunCode_Click);
             // 
@@ -355,7 +355,7 @@
             this.PathIN.Name = "PathIN";
             this.PathIN.Size = new System.Drawing.Size(562, 20);
             this.PathIN.TabIndex = 33;
-            this.PathIN.Text = "Абсолютный путь до файла ввода";
+            this.PathIN.Text = "Way to input file";
             // 
             // PathOUT
             // 
@@ -363,7 +363,7 @@
             this.PathOUT.Name = "PathOUT";
             this.PathOUT.Size = new System.Drawing.Size(562, 20);
             this.PathOUT.TabIndex = 34;
-            this.PathOUT.Text = "Абсолютный путь до файла вывода";
+            this.PathOUT.Text = "Way to output file";
             // 
             // Form1
             // 
