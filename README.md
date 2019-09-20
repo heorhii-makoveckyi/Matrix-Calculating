@@ -1,20 +1,20 @@
 # Matrix-Calculating
-Весь код в MatrixMult\MatrixMult\Form1.cs
-Приложение в MatrixMult\MatrixMult\bin\Debug\MatrixMult.exe
+All code in MatrixMult\MatrixMult\Form1.cs
+App in MatrixMult\MatrixMult\bin\Debug\MatrixMult.exe
 
-Добавлена возможность "программирования". Пример кода в корне проекта (MatrixCalcIn.txt), а также его вывод (MatrixCalcOut.txt)
+Added possibility to markuping matrix "code". Example of this code in the project's root (MatrixCalcIn.txt), and its output (MatrixCalcOut.txt)
 
-Можно писать любое кол-во матриц, они посчитаются и программа его выведет в файл в введенной директории
+Here is able to write any count of matrixes
 
-Есть комментарии, программой они игнорируются и начинаются на !
+You can write comments. They start from '!' and program ignores it
 
-Помимо оператора умножения (*), есть еще операторы сложения(+) и вычетания(-).
+You are able to use 3 operators: '*', '+', '-'
 
-Операторы вводятся после символа @
+Operators are inputed after '@'
 
-Матрицы начинаются с символов #_ 
+Matrixes start from "#_" 
 
-После #__кол-во строк_кол-во столбцов_значение1_значение2_ ... _;
+and after: #__rowsCount_colsCount_value1_value2_ ... _;
 
-Все команды заканчиваются на ;
+All commands end on ';'
 

@@ -56,7 +56,6 @@
             this.CopyS = new System.Windows.Forms.Button();
             this.SetS = new System.Windows.Forms.Button();
             this.CopyT = new System.Windows.Forms.Button();
-            this.SetT = new System.Windows.Forms.Button();
             this.runCode = new System.Windows.Forms.Button();
             this.PathIN = new System.Windows.Forms.TextBox();
             this.PathOUT = new System.Windows.Forms.TextBox();
@@ -329,16 +328,6 @@
             this.CopyT.UseVisualStyleBackColor = true;
             this.CopyT.Click += new System.EventHandler(this.CopyT_Click);
             // 
-            // SetT
-            // 
-            this.SetT.Location = new System.Drawing.Point(762, 512);
-            this.SetT.Name = "SetT";
-            this.SetT.Size = new System.Drawing.Size(120, 23);
-            this.SetT.TabIndex = 31;
-            this.SetT.Text = "Paste";
-            this.SetT.UseVisualStyleBackColor = true;
-            this.SetT.Click += new System.EventHandler(this.SetT_Click);
-            // 
             // runCode
             // 
             this.runCode.Location = new System.Drawing.Point(275, 130);
@@ -374,7 +363,6 @@
             this.Controls.Add(this.PathOUT);
             this.Controls.Add(this.PathIN);
             this.Controls.Add(this.runCode);
-            this.Controls.Add(this.SetT);
             this.Controls.Add(this.CopyT);
             this.Controls.Add(this.SetS);
             this.Controls.Add(this.CopyS);
@@ -444,7 +432,6 @@
         private System.Windows.Forms.Button CopyS;
         private System.Windows.Forms.Button SetS;
         private System.Windows.Forms.Button CopyT;
-        private System.Windows.Forms.Button SetT;
         private System.Windows.Forms.Button runCode;
         private System.Windows.Forms.TextBox PathIN;
         private System.Windows.Forms.TextBox PathOUT;

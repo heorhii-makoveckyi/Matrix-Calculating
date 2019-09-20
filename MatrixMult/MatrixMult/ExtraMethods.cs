@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.IO;
+﻿using System.Windows.Forms;
+using System.Data;
 
 namespace MatrixMult {
-    public partial class Form1 : Form {
+    public static class Extramethods {
+        public static void copyMatrix(TextBox Debug, DataGridView FMatrix, DataGridView SMatrix, DataGridView RMatrix, short whichOne,
+            int fStr, int fCol, int sCol, int sStr, int tCol, int tStr) {
 
-        void copyMatrix(short whichOne) {
-
-            string matrix = "#_";
+            var matrix = "#_";
 
             switch (whichOne) {
                 case 1:
-                    matrix += fMatStr + "_" + fMatCol + "_";
+                    matrix += fStr + "_" + fCol + "_";
 
-                    for (int i = 0; i < fMatStr; ++i) {
-                        for (int j = 0; j < fMatCol; ++j) {
+                    for (int i = 0; i < fStr; ++i) {
+                        for (int j = 0; j < fCol; ++j) {
 
                             if (FMatrix.Rows[i].Cells[j].Value.ToString() == "") {
                                 Debug.Text = "Fill matrix!";
@@ -32,10 +27,10 @@ namespace MatrixMult {
                     break;
 
                 case 2:
-                    matrix += sMatStr + "_" + sMatCol + "_";
+                    matrix += sStr + "_" + sCol + "_";
 
-                    for (int i = 0; i < sMatStr; ++i) {
-                        for (int j = 0; j < sMatCol; ++j) {
+                    for (int i = 0; i < sStr; ++i) {
+                        for (int j = 0; j < sCol; ++j) {
                             if (SMatrix.Rows[i].Cells[j].Value.ToString() == "") {
                                 Debug.Text = "Fill matrix!";
                                 return;
@@ -48,10 +43,10 @@ namespace MatrixMult {
                     break;
 
                 case 3:
-                    matrix += tMatStr + "_" + tMatCol + "_";
+                    matrix += tStr + "_" + tCol + "_";
 
-                    for (int i = 0; i < tMatStr; ++i) {
-                        for (int j = 0; j < tMatCol; ++j) {
+                    for (int i = 0; i < tStr; ++i) {
+                        for (int j = 0; j < tCol; ++j) {
                             if (RMatrix.Rows[i].Cells[j].Value.ToString() == "") {
                                 Debug.Text = "Fill matrix!";
                                 return;
@@ -64,9 +59,10 @@ namespace MatrixMult {
                     break;
             }
         }
-        void setMatrix(short whichOne) {
+        public static void setMatrix(TextBox Debug, DataGridView FMatrix, DataGridView SMatrix, DataGridView RMatrix, short whichOne,
+            int fStr, int fCol, int sCol, int sStr, int tCol, int tStr) {
 
-            string matrixClip = Clipboard.GetText();
+            var matrixClip = Clipboard.GetText();
             MessageBox.Show(matrixClip);
 
             if (matrixClip[0] != '#' && matrixClip[1] != '_') {
@@ -81,12 +77,12 @@ namespace MatrixMult {
             switch (whichOne) {
 
                 case 1:
-                    if (fMatStr != str || fMatCol != col) {
+                    if (fStr != str || fCol != col) {
                         Debug.Text = "Copied matrix does not fit";
                         return;
                     }
-                    for (int i = 0; i < fMatStr; ++i) {
-                        for (int j = 0; j < fMatCol; ++j) {
+                    for (int i = 0; i < fStr; ++i) {
+                        for (int j = 0; j < fCol; ++j) {
                             FMatrix.Rows[i].Cells[j].Value = matrix[3 + step];
                             ++step;
                         }
@@ -94,12 +90,12 @@ namespace MatrixMult {
                     break;
 
                 case 2:
-                    if (sMatStr != str || sMatCol != col) {
+                    if (sStr != str || sCol != col) {
                         Debug.Text = "Copied matrix does not fit";
                         return;
                     }
-                    for (int i = 0; i < sMatStr; ++i) {
-                        for (int j = 0; j < sMatCol; ++j) {
+                    for (int i = 0; i < sStr; ++i) {
+                        for (int j = 0; j < sCol; ++j) {
                             SMatrix.Rows[i].Cells[j].Value = matrix[3 + step];
                             ++step;
                         }
@@ -107,12 +103,12 @@ namespace MatrixMult {
                     break;
 
                 case 3:
-                    if (tMatStr != str || tMatCol != col) {
+                    if (tStr != str || tCol != col) {
                         Debug.Text = "Copied matrix does not fit";
                         return;
                     }
-                    for (int i = 0; i < tMatStr; ++i) {
-                        for (int j = 0; j < tMatCol; ++j) {
+                    for (int i = 0; i < tStr; ++i) {
+                        for (int j = 0; j < tCol; ++j) {
                             RMatrix.Rows[i].Cells[j].Value = matrix[3 + step];
                             ++step;
                         }
@@ -120,8 +116,7 @@ namespace MatrixMult {
                     break;
             }
         }
-
-        bool findingErrors(out string error) {
+        public static bool findingErrors(out string error, TextBox[] textBoxes) {
 
             bool willContinue = true;
             error = "";
@@ -141,65 +136,69 @@ namespace MatrixMult {
                 }
             }
             return willContinue;
-        }
+        } 
+        public static void addCols(out DataTable table1, out DataTable table2, out DataTable table3, 
+            int fCol, int fStr, int sCol, int sStr, int tCol, int tStr) {
 
-        void changeScene(bool isVisible) {
-
-            for (int i = 0; i < textBoxes.Length; ++i)
-                textBoxes[i].Visible = isVisible;
-
-            textBox1.Visible = isVisible;
-            textBox2.Visible = isVisible;
-            textBox3.Visible = isVisible;
-            textBox4.Visible = isVisible;
-            Operation.Visible = isVisible;
-            OperText.Visible = isVisible;
-
-        }
-        private void Do_Clear_Click(object sender, EventArgs e) {
-
-            for (int i = 0; i < textBoxes.Length; ++i)
-                textBoxes[i].Text = "";
-            Debug.Text = "";
-
-            if (state != States.before) {
-                changeScene(true);
-
-                int j = FMatrix.Columns.Count - 1;
-                for (; j >= 0; --j)
-                    FMatrix.Columns.Remove(FMatrix.Columns[j]);
-
-                int k = SMatrix.Columns.Count - 1;
-                for (; k >= 0; --k)
-                    SMatrix.Columns.Remove(SMatrix.Columns[k]);
-
-                int l = RMatrix.Columns.Count - 1;
-                for (; l >= 0; --l)
-                    RMatrix.Columns.Remove(RMatrix.Columns[l]);
+            table1 = new DataTable();
+            for (int i = 0; i < fCol; ++i)
+                table1.Columns.Add("Col_" + (i + 1));
+            for (int i = 0; i < fStr; ++i) {
+                DataRow r = table1.NewRow();
+                table1.Rows.Add(r);
             }
-            Coefficient.Text = "";
 
-            state = States.before;
+            table2 = new DataTable();
+            for (int i = 0; i < sCol; ++i)
+                table2.Columns.Add("Col_" + (i + 1));
+            for (int i = 0; i < sStr; ++i) {
+                DataRow r = table2.NewRow();
+                table2.Rows.Add(r);
+            }
+
+            table3 = new DataTable();
+            for (int i = 0; i < tCol; ++i)
+                table3.Columns.Add("Col_" + (i + 1));
+            for (int i = 0; i < tStr; ++i) {
+                DataRow r = table3.NewRow();
+                table3.Rows.Add(r);
+            }
         }
-
-
-        /*********************** HELP ***********************/
-        private void TextBox5_TextChanged(object sender, EventArgs e) { // Столбцов в первой матрице
-
+        public static void addCols(out DataTable table1, out DataTable table2, out DataTable table3, int col, int str) {
+            table1 = new DataTable();
+            for (int i = 0; i < col; ++i)
+                table1.Columns.Add("Col_" + (i + 1));
+            for (int i = 0; i < str; ++i) {
+                DataRow r = table1.NewRow();
+                table1.Rows.Add(r);
+            }
+            table2 = new DataTable();
+            for (int i = 0; i < col; ++i)
+                table2.Columns.Add("Col_" + (i + 1));
+            for (int i = 0; i < str; ++i) {
+                DataRow r = table2.NewRow();
+                table2.Rows.Add(r);
+            }
+            table3 = new DataTable();
+            for (int i = 0; i < col; ++i)
+                table3.Columns.Add("Col_" + (i + 1));
+            for (int i = 0; i < str; ++i) {
+                DataRow r = table3.NewRow();
+                table3.Rows.Add(r);
+            }
         }
-        private void TextBox6_TextChanged(object sender, EventArgs e) { // Строк в первой матрице
+        public static void changeScene(TextBox[] textBoxes, TextBox[] roBoxes, TextBox coeff, ComboBox operation, bool isVisible) {
 
-        }
-        private void TextBox7_TextChanged(object sender, EventArgs e) { // Столбцов во второй матрице
+            for (var i = 0; i < textBoxes.Length; ++i)
+                textBoxes[i].Visible = isVisible;
+            for (var i = 0; i < roBoxes.Length; ++i)
+                roBoxes[i].Visible = isVisible;
 
-        }
-        private void TextBox8_TextChanged(object sender, EventArgs e) { // Строк во второй матрице
+            if (coeff.Text == "")
+                coeff.Text = "1";
 
-        }
-        private void TextBox9_TextChanged(object sender, EventArgs e) { // Выводы ошибок
-
-        }
-        private void TextBox6_TextChanged_1(object sender, EventArgs e) {
+            coeff.Enabled = isVisible;
+            operation.Enabled = isVisible;
 
         }
     }

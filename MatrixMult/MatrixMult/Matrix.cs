@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MatrixMult {
+﻿namespace MatrixMult {
     public class Matrix {
 
         public Matrix() {}
@@ -20,11 +14,11 @@ namespace MatrixMult {
 
         public double[,] multipliying(Matrix matrix1, Matrix matrix2) {
 
-            double[,] resValues = new double[matrix1.rows, matrix2.cols];
+            var resValues = new double[matrix1.rows, matrix2.cols];
 
-            for (int i = 0; i < matrix1.rows; ++i) {
-                for (int j = 0; j < matrix2.cols; ++j) {
-                    for (int t = 0; t < matrix1.cols; ++t) {
+            for (var i = 0; i < matrix1.rows; ++i) {
+                for (var j = 0; j < matrix2.cols; ++j) {
+                    for (var t = 0; t < matrix1.cols; ++t) {
                         resValues[i, j] += matrix1.values[i, t] * matrix2.values[t, j];
                     }
                     resValues[i, j] *= coeff;
@@ -34,10 +28,10 @@ namespace MatrixMult {
         }
         public double[,] addition(Matrix matrix1, Matrix matrix2) {
 
-            double[,] resValues = new double[rows, cols];
+            var resValues = new double[rows, cols];
 
-            for (int i = 0; i < rows; ++i) {
-                for (int j = 0; j < cols; ++j) {
+            for (var i = 0; i < rows; ++i) {
+                for (var j = 0; j < cols; ++j) {
                     resValues[i, j] = matrix1.values[i, j] + matrix2.values[i, j];
                     resValues[i, j] *= coeff;
                 }
@@ -46,10 +40,10 @@ namespace MatrixMult {
         }
         public double[,] subtraction(Matrix matrix1, Matrix matrix2) {
 
-            double[,] resValues = new double[rows, cols];
+            var resValues = new double[rows, cols];
 
-            for (int i = 0; i < rows; ++i) {
-                for (int j = 0; j < cols; ++j) {
+            for (var i = 0; i < rows; ++i) {
+                for (var j = 0; j < cols; ++j) {
                     resValues[i, j] = matrix1.values[i, j] - matrix2.values[i, j];
                     resValues[i, j] *= coeff;
                 }
