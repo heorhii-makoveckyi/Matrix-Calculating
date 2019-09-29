@@ -5,7 +5,6 @@ using MatrixReader;
 
 namespace MatrixMult {
     public partial class Form1 : Form {
-
         public enum States {
             before,
             input,
@@ -14,9 +13,9 @@ namespace MatrixMult {
 
         States state;
 
-        Matrix matrix1 = new Matrix();
-        Matrix matrix2 = new Matrix();
-        Matrix matrix3 = new Matrix();
+        Matrix matrix1;
+        Matrix matrix2;
+        Matrix matrix3;
 
         TextBox[] textBoxes;
         TextBox[] roBoxes;
@@ -58,20 +57,11 @@ namespace MatrixMult {
                     if (willContinue == false) {
                         Debug.Text = error;
                     }
-                    else {
+                    else {  
 
-                        matrix1.cols = int.Parse(MFirstCols.Text);
-                        matrix1.rows = int.Parse(MFirstStrs.Text);
-                        matrix2.cols = int.Parse(MSecCols.Text);
-                        matrix2.rows = int.Parse(MSecStrs.Text);
-
-                        matrix3.rows = matrix1.rows;
-                        matrix3.cols = matrix2.cols;
-
-                        matrix1.values = new double[matrix1.rows, matrix1.cols];
-                        matrix2.values = new double[matrix2.rows, matrix2.cols];
-
-                        matrix3.values = new double[matrix3.rows, matrix3.cols];
+                        matrix1 = new Matrix(int.Parse(MFirstStrs.Text), int.Parse(MFirstCols.Text));
+                        matrix2 = new Matrix(int.Parse(MSecStrs.Text), int.Parse(MSecCols.Text));
+                        matrix3 = new Matrix(matrix1.Rows, matrix2.Cols);
 
                         Extramethods.changeScene(textBoxes, roBoxes, Coefficient, Operation, false);
 
@@ -79,8 +69,8 @@ namespace MatrixMult {
                         DataTable table2;
                         DataTable table3;
 
-                        Extramethods.addCols(out table1, out table2, out table3, matrix1.cols, 
-                            matrix1.rows, matrix2.cols, matrix2.rows, matrix3.cols, matrix3.rows);
+                        Extramethods.addCols(out table1, out table2, out table3, matrix1.Cols, 
+                            matrix1.Rows, matrix2.Cols, matrix2.Rows, matrix3.Cols, matrix3.Rows);
 
                         FMatrix.DataSource = table1;
                         SMatrix.DataSource = table2;
@@ -105,16 +95,9 @@ namespace MatrixMult {
                     var cols = int.Parse(MFirstCols.Text);
                     var rows = int.Parse(MFirstStrs.Text);
 
-                    matrix1.cols = cols;
-                    matrix1.rows = rows;
-                    matrix2.cols = cols;
-                    matrix2.rows = rows;
-                    matrix3.cols = cols;
-                    matrix3.rows = rows;
-
-                    matrix1.values = new double[rows, cols];
-                    matrix2.values = new double[rows, cols];
-                    matrix3.values = new double[rows, cols];
+                    matrix1 = new Matrix(rows, cols);
+                    matrix2 = new Matrix(rows, cols);
+                    matrix3 = new Matrix(rows, cols);
 
                     Extramethods.changeScene(textBoxes, roBoxes, Coefficient, Operation, false);
 
@@ -148,16 +131,9 @@ namespace MatrixMult {
                     var cols = int.Parse(MFirstCols.Text);
                     var rows = int.Parse(MFirstStrs.Text);
 
-                    matrix1.cols = cols;
-                    matrix1.rows = rows;
-                    matrix2.cols = cols;
-                    matrix2.rows = rows;
-                    matrix3.cols = cols;
-                    matrix3.rows = rows;
-
-                    matrix1.values = new double[rows, cols];
-                    matrix2.values = new double[rows, cols];
-                    matrix3.values = new double[rows, cols];
+                    matrix1 = new Matrix(rows, cols);
+                    matrix2 = new Matrix(rows, cols);
+                    matrix3 = new Matrix(rows, cols);
 
                     Extramethods.changeScene(textBoxes, roBoxes, Coefficient, Operation, false);
 
@@ -190,8 +166,8 @@ namespace MatrixMult {
 
                 case States.input:
                     // Taking values from 1-st matrix
-                    for (var i = 0; i < matrix1.rows; ++i) {
-                        for (var j = 0; j < matrix1.cols; ++j) {
+                    for (var i = 0; i < matrix1.Rows; ++i) {
+                        for (var j = 0; j < matrix1.Cols; ++j) {
                             var valuev = FMatrix.Rows[i].Cells[j].Value.ToString();
                             if (valuev == "") {
                                 Debug.Text = "Empty fields cannot be existing. Input 0!";
@@ -201,16 +177,16 @@ namespace MatrixMult {
                         }
                     }
                     if (doWeGo) {
-                        for (var i = 0; i < matrix1.rows; ++i) {
-                            for (var j = 0; j < matrix1.cols; ++j) {
-                                matrix1.values[i, j] = double.Parse(FMatrix.Rows[i].Cells[j].Value.ToString());
+                        for (var i = 0; i < matrix1.Rows; ++i) {
+                            for (var j = 0; j < matrix1.Cols; ++j) {
+                                matrix1.Values[i, j] = double.Parse(FMatrix.Rows[i].Cells[j].Value.ToString());
                             }
                         }
                     }
                     doWeGo = false;
                     // Taking values from 2-nd matrix
-                    for (var i = 0; i < matrix2.rows; ++i) {
-                        for (var j = 0; j < matrix1.cols; ++j) {
+                    for (var i = 0; i < matrix1.Rows; ++i) {
+                        for (var j = 0; j < matrix2.Cols; ++j) {
                             var valuev = SMatrix.Rows[i].Cells[j].Value.ToString();
                             if (valuev == "") {
                                 Debug.Text = "Empty fields cannot be existing. Input 0!";
@@ -221,9 +197,9 @@ namespace MatrixMult {
                     }
                     if (doWeGo) {
 
-                        for (var i = 0; i < matrix2.rows; ++i) {
-                            for (var j = 0; j < matrix2.cols; ++j) {
-                                matrix2.values[i, j] = double.Parse(SMatrix.Rows[i].Cells[j].Value.ToString());
+                        for (var i = 0; i < matrix2.Rows; ++i) {
+                            for (var j = 0; j < matrix2.Cols; ++j) {
+                                matrix2.Values[i, j] = double.Parse(SMatrix.Rows[i].Cells[j].Value.ToString());
                             }
                         }
 
@@ -234,8 +210,8 @@ namespace MatrixMult {
                         var temp = Coefficient.Text;
                         var coeff = 0.0;
 
-                        var rows = matrix3.rows;
-                        var cols = matrix3.cols;
+                        var rows = matrix3.Rows;
+                        var cols = matrix3.Cols;
 
                         try {
                             coeff = double.Parse(temp);
@@ -244,34 +220,32 @@ namespace MatrixMult {
                         if (temp == "")
                             coeff = 1;
 
-                        matrix3.coeff = coeff;
-
                         switch (oper) {
 
                             case 0:
 
-                                matrix3.values = matrix3.multipliying(matrix1, matrix2);
+                                matrix3 = matrix1 * matrix2;
                                 for (var i = 0; i < rows; ++i) {
                                     for (var j = 0; j < cols; ++j)
-                                        RMatrix.Rows[i].Cells[j].Value = matrix3.values[i, j];
+                                        RMatrix.Rows[i].Cells[j].Value = matrix3.Values[i, j];
                                 }
                                 break;
 
                             case 1:
 
-                                matrix3.values = matrix3.addition(matrix1, matrix2);
+                                matrix3 = matrix1 + matrix2;
                                 for (var i = 0; i < rows; ++i) {
                                     for (var j = 0; j < cols; ++j)
-                                        RMatrix.Rows[i].Cells[j].Value = matrix3.values[i, j];
+                                        RMatrix.Rows[i].Cells[j].Value = matrix3.Values[i, j];
                                 }
                                 break;
 
                             case 2:
 
-                                matrix3.values = matrix3.subtraction(matrix1, matrix2);
+                                matrix3 = matrix1 - matrix2;
                                 for (var i = 0; i < rows; ++i) {
                                     for (var j = 0; j < cols; ++j)
-                                        RMatrix.Rows[i].Cells[j].Value = matrix3.values[i, j];
+                                        RMatrix.Rows[i].Cells[j].Value = matrix3.Values[i, j];
                                 }
                                 break;
                         }
@@ -317,24 +291,24 @@ namespace MatrixMult {
         }
 
         private void CopyF_Click(object sender, EventArgs e) {
-            Extramethods.copyMatrix(Debug, FMatrix, SMatrix, RMatrix, 1, matrix1.rows, matrix1.cols,
-                matrix2.rows, matrix2.cols, matrix3.rows, matrix3.cols);
+            Extramethods.copyMatrix(Debug, FMatrix, SMatrix, RMatrix, 1, matrix1.Rows, matrix1.Cols,
+                matrix2.Rows, matrix2.Cols, matrix3.Rows, matrix3.Cols);
         }
         private void SetF_Click(object sender, EventArgs e) {
-            Extramethods.setMatrix(Debug, FMatrix, SMatrix, RMatrix, 1, matrix1.rows, matrix1.cols,
-                matrix2.rows, matrix2.cols, matrix3.rows, matrix3.cols);
+            Extramethods.setMatrix(Debug, FMatrix, SMatrix, RMatrix, 1, matrix1.Rows, matrix1.Cols,
+                matrix2.Rows, matrix2.Cols, matrix3.Rows, matrix3.Cols);
         }
         private void CopyS_Click(object sender, EventArgs e) {
-            Extramethods.copyMatrix(Debug, FMatrix, SMatrix, RMatrix, 2, matrix1.rows, matrix1.cols,
-                matrix2.rows, matrix2.cols, matrix3.rows, matrix3.cols);
+            Extramethods.copyMatrix(Debug, FMatrix, SMatrix, RMatrix, 2, matrix1.Rows, matrix1.Cols,
+                matrix2.Rows, matrix2.Cols, matrix3.Rows, matrix3.Cols);
         }
         private void SetS_Click(object sender, EventArgs e) {
-            Extramethods.setMatrix(Debug, FMatrix, SMatrix, RMatrix, 2, matrix1.rows, matrix1.cols,
-                matrix2.rows, matrix2.cols, matrix3.rows, matrix3.cols);
+            Extramethods.setMatrix(Debug, FMatrix, SMatrix, RMatrix, 2, matrix1.Rows, matrix1.Cols,
+                matrix2.Rows, matrix2.Cols, matrix3.Rows, matrix3.Cols);
         }
         private void CopyT_Click(object sender, EventArgs e) {
-            Extramethods.copyMatrix(Debug, FMatrix, SMatrix, RMatrix, 3, matrix1.rows, matrix1.cols,
-                matrix2.rows, matrix2.cols, matrix3.rows, matrix3.cols);
+            Extramethods.copyMatrix(Debug, FMatrix, SMatrix, RMatrix, 3, matrix1.Rows, matrix1.Cols,
+                matrix2.Rows, matrix2.Cols, matrix3.Rows, matrix3.Cols);
         }
 
         private void RunCode_Click(object sender, EventArgs e) /* Read file with special markup and write to another one */ {

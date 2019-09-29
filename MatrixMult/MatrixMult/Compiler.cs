@@ -12,7 +12,6 @@ namespace MatrixReader {
             var comments = new List<int>();
 
             var reader = new StreamReader(pathIN);
-            var writer = new StreamWriter(pathOUT);
 
             var matrixReader = "";
             while (matrixReader != "Start;") {
@@ -31,12 +30,17 @@ namespace MatrixReader {
             }
 
             var code = matrixReader.Split(';');
+            reader.Close();
 
             var oper = ' ';
 
-            var matrix1 = new Matrix(0, 0, 1);
-            var matrix2 = new Matrix(0, 0, 1);
-            var matrix3 = new Matrix(0, 0, 1);
+            Matrix matrix1 = new Matrix();
+            Matrix matrix2 = new Matrix();
+            Matrix matrix3 = new Matrix();
+
+            double coeff1 = 0.0;
+            double coeff2 = 0.0;
+            double coeff3 = 0.0;
 
             var isFirst = true;
             var isReady = false;
@@ -45,7 +49,7 @@ namespace MatrixReader {
                 if (code[i][0] == '#') /* Matrixes */  { 
                     if (isFirst) {
                         try {
-                            matrix1.coeff = double.Parse(code[i - 1]);
+                            coeff1 = double.Parse(code[i - 1]);
                         }
                         catch {
                             var plusStrs = 0;
@@ -58,15 +62,13 @@ namespace MatrixReader {
                         }
                         var help = code[i].Split('_');
 
-                        matrix1.rows = int.Parse(help[1]);
-                        matrix1.cols = int.Parse(help[2]);
+                        matrix1 = new Matrix(int.Parse(help[1]), int.Parse(help[2]));
 
-                        matrix1.values = new double[matrix1.rows, matrix1.cols];
                         var cycle = 3;
 
-                        for (var j = 0; j < matrix1.rows; ++j) {
-                            for (var k = 0; k < matrix1.cols; ++k) {
-                                matrix1.values[j, k] = int.Parse(help[cycle]) * matrix1.coeff;
+                        for (var j = 0; j < matrix1.Rows; ++j) {
+                            for (var k = 0; k < matrix1.Cols; ++k) {
+                                matrix1.Values[j, k] = int.Parse(help[cycle]) * coeff1;
                                 ++cycle;
                             }
                         }
@@ -75,7 +77,7 @@ namespace MatrixReader {
                     else {
                         var help = code[i].Split('_');
                         try {
-                            matrix2.coeff = double.Parse(code[i - 1]);
+                            coeff2 = double.Parse(code[i - 1]);
                         }
                         catch {
                             var plusStrs = 0;
@@ -86,15 +88,12 @@ namespace MatrixReader {
                             MessageBox.Show("You lost coeff here: " + (i + plusStrs) + "str");
                             return;
                         }
-                        matrix2.rows = int.Parse(help[1]);
-                        matrix2.cols = int.Parse(help[2]);
-
-                        matrix2.values = new double[matrix2.rows, matrix2.cols];
+                        matrix2 = new Matrix(int.Parse(help[1]), int.Parse(help[2]));
                         var cycle = 3;
 
-                        for (var j = 0; j < matrix2.rows; ++j) {
-                            for (var k = 0; k < matrix2.cols; ++k) {
-                                matrix2.values[j, k] = int.Parse(help[cycle]) * matrix2.coeff;
+                        for (var j = 0; j < matrix2.Rows; ++j) {
+                            for (var k = 0; k < matrix2.Cols; ++k) {
+                                matrix2.Values[j, k] = int.Parse(help[cycle]) * coeff2;
                                 ++cycle;
                             }
                         }
@@ -105,12 +104,11 @@ namespace MatrixReader {
                     if (code[i].Length > 1) {
                         if (code[i][1] == '*') {
 
-                            matrix3.rows = matrix1.rows;
-                            matrix3.cols = matrix2.cols;
-
+                            matrix3 = new Matrix(matrix1.Rows, matrix2.Cols);
+                            
                             oper = '*';
 
-                            if (matrix1.cols != matrix2.rows) {
+                            if (matrix1.Cols != matrix2.Rows) {
                                 var plusStrs = 0;
                                 foreach (var strs in comments) {
                                     if (strs < i)
@@ -119,9 +117,8 @@ namespace MatrixReader {
                                 MessageBox.Show("Cant mult on: " + (i + plusStrs) + "str");
                                 return;
                             }
-
                             try {
-                                matrix3.coeff = double.Parse(code[i - 1]);
+                                coeff3 = double.Parse(code[i - 1]);
                             }
                             catch {
                                 var plusStrs = 0;
@@ -132,19 +129,16 @@ namespace MatrixReader {
                                 MessageBox.Show("You lost coeff here: " + (i + plusStrs) + "str");
                                 return;
                             }
-                            matrix3.values = new double[matrix1.rows, matrix2.cols];
-                            matrix3.values = matrix3.multipliying(matrix1, matrix2);
-                            
+                            matrix3 = coeff3 * matrix1 * matrix2;                            
                             isReady = true;
                         }
                         else if (code[i][1] == '+') {
 
-                            matrix3.cols = matrix2.cols;
-                            matrix3.rows = matrix2.rows;
+                            matrix3 = new Matrix(matrix2.Cols, matrix2.Rows);
 
                             oper = '+';
 
-                            if (matrix1.cols != matrix2.cols && matrix1.rows != matrix2.rows) {
+                            if (matrix1.Cols != matrix2.Cols && matrix1.Rows != matrix2.Rows) {
                                 var plusStrs = 0;
                                 foreach (var strs in comments) {
                                     if (strs < i)
@@ -154,21 +148,17 @@ namespace MatrixReader {
                                 return;
                             }
 
-                            matrix3.coeff = double.Parse(code[i - 1]);
-
-                            matrix3.values = new double[matrix1.rows, matrix1.cols];
-                            matrix3.values = matrix3.addition(matrix1, matrix2);
+                            coeff3 = double.Parse(code[i - 1]);
+                            matrix3 = coeff3 * (matrix1 + matrix2);
 
                             isReady = true;
                         }
                         else if (code[i][1] == '-') {
 
-                            matrix3.cols = matrix2.cols;
-                            matrix3.rows = matrix2.rows;
-
+                            matrix3 = new Matrix(matrix2.Cols, matrix2.Rows);
                             oper = '-';
 
-                            if (matrix1.cols != matrix2.cols && matrix1.rows != matrix2.rows) {
+                            if (matrix1.Cols != matrix2.Cols && matrix1.Rows != matrix2.Rows) {
                                 var plusStrs = 0;
                                 foreach (var strs in comments) {
                                     if (strs < i)
@@ -178,11 +168,9 @@ namespace MatrixReader {
                                 return;
                             }
 
-                            matrix3.coeff = double.Parse(code[i - 1]);
+                            coeff3 = double.Parse(code[i - 1]);
 
-                            matrix3.values = new double[matrix1.rows, matrix1.cols];
-                            matrix3.values = matrix3.subtraction(matrix1, matrix2);
-
+                            matrix3 = coeff3 * (matrix1 - matrix2);
                             isReady = true;
                         }
                         else {
@@ -207,38 +195,26 @@ namespace MatrixReader {
                 } // Operators
                 if (isReady) /* Writing to the file */ {
 
-                    writer.WriteLine("Coeff: " + matrix1.coeff);
-                    for (var y = 0; y < matrix1.rows; ++y) {
-                        for (var r = 0; r < matrix1.cols; ++r) {
-                            writer.Write(matrix1.values[y, r] + "\t"); 
-                        }
-                        writer.WriteLine();
-                    }
+                    var writer = new StreamWriter(pathOUT);
+
+                    writer.WriteLine("Coeff: " + coeff1);
+                    writer.Write(matrix1.ToString());
 
                     writer.WriteLine(oper);
-                    writer.WriteLine("\nCoeff: " + matrix2.coeff);
-                    for (var y = 0; y < matrix2.rows; ++y) {
-                        for (var r = 0; r < matrix2.cols; ++r) {
-                            writer.Write(matrix2.values[y, r] + "\t");
-                        }
-                        writer.WriteLine();
-                    }
-
+                    writer.WriteLine("\nCoeff: " + coeff2);
+                    writer.Write(matrix2.ToString());
+                        
                     writer.WriteLine("-->");
-                    writer.WriteLine("Coeff: " + matrix3.coeff);
-                    for (var y = 0; y < matrix3.rows; ++y) {
-                        for (var r = 0; r < matrix3.cols; ++r) {
-                            writer.Write(matrix3.values[y, r] + "\t");
-                        }
-                        writer.WriteLine();
-                    }
+                    writer.WriteLine("Coeff: " + coeff3);
+                    writer.Write(matrix3.ToString());
                     writer.WriteLine();
+
+                    writer.Close();
+
                     isReady = false;
 
                 } // Writing to the file
             }
-            reader.Close();
-            writer.Close();
         }
     }
 }

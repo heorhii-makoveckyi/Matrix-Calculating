@@ -164,7 +164,8 @@ namespace MatrixMult {
                 table3.Rows.Add(r);
             }
         }
-        public static void addCols(out DataTable table1, out DataTable table2, out DataTable table3, int col, int str) {
+        public static void addCols(out DataTable table1, out DataTable table2, 
+            out DataTable table3, int col, int str) {
             table1 = new DataTable();
             for (int i = 0; i < col; ++i)
                 table1.Columns.Add("Col_" + (i + 1));
@@ -187,7 +188,8 @@ namespace MatrixMult {
                 table3.Rows.Add(r);
             }
         }
-        public static void changeScene(TextBox[] textBoxes, TextBox[] roBoxes, TextBox coeff, ComboBox operation, bool isVisible) {
+        public static void changeScene(TextBox[] textBoxes, TextBox[] roBoxes,
+            TextBox coeff, ComboBox operation, bool isVisible) {
 
             for (var i = 0; i < textBoxes.Length; ++i)
                 textBoxes[i].Visible = isVisible;

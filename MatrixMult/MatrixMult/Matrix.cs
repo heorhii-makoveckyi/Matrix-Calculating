@@ -1,55 +1,84 @@
-﻿namespace MatrixMult {
+﻿using System.IO;
+
+namespace MatrixMult {
     public class Matrix {
 
-        public Matrix() {}
-        public Matrix(int rows, int cols, double coeff) {
-            this.coeff = coeff;
-            this.rows = rows;
-            this.cols = cols;
+        public Matrix() {} // Just for inizialization 
+        public Matrix(int Rows, int Cols) {
+            this.Rows = Rows;
+            this.Cols = Cols;
+            Values = new double[Rows, Cols];
         }
-        public double[,] values { get; set; }
-        public double coeff { get; set; }
-        public int rows { get; set; }
-        public int cols { get; set; }
+        public Matrix(int Rows, int Cols, double[,] Values) {
+            this.Rows = Rows;
+            this.Cols = Cols;
+            this.Values = Values;
+        }
+        public double[,] Values { get; set; }
+        public int Rows { get; private set; }
+        public int Cols { get; private set; }
 
-        public double[,] multipliying(Matrix matrix1, Matrix matrix2) {
+        public static Matrix operator -(Matrix matrix1, Matrix matrix2) {
 
-            var resValues = new double[matrix1.rows, matrix2.cols];
+            var resMatrix = new Matrix(matrix1.Rows, matrix1.Cols);
+            for (var i = 0; i < matrix1.Rows; ++i) {
+                for (var j = 0; j < matrix1.Cols; ++j) {
+                    resMatrix.Values[i, j] = matrix1.Values[i, j] - matrix2.Values[i, j];
+                }
+            }
+            return resMatrix;
+        }
+        public static Matrix operator +(Matrix matrix1, Matrix matrix2) {
 
-            for (var i = 0; i < matrix1.rows; ++i) {
-                for (var j = 0; j < matrix2.cols; ++j) {
-                    for (var t = 0; t < matrix1.cols; ++t) {
-                        resValues[i, j] += matrix1.values[i, t] * matrix2.values[t, j];
+            var resMatrix = new Matrix(matrix1.Rows, matrix1.Cols);
+            for (var i = 0; i < matrix1.Rows; ++i) {
+                for (var j = 0; j < matrix1.Cols; ++j) {
+                    resMatrix.Values[i, j] = matrix1.Values[i, j] + matrix2.Values[i, j];
+                }
+            }
+            return resMatrix;
+        }
+        public static Matrix operator *(Matrix matrix1, Matrix matrix2) {
+
+            var resMatrix = new Matrix(matrix1.Rows, matrix2.Cols);
+            for (var i = 0; i < matrix1.Rows; ++i) {
+                for (var j = 0; j < matrix2.Cols; ++j) {
+                    for (var t = 0; t < matrix1.Cols; ++t) {
+                        resMatrix.Values[i, j] += matrix1.Values[i, t] * matrix2.Values[t, j];
                     }
-                    resValues[i, j] *= coeff;
                 }
             }
-            return resValues;
+            return resMatrix;
         }
-        public double[,] addition(Matrix matrix1, Matrix matrix2) {
+        public static Matrix operator *(Matrix matrix, double coeff) {
 
-            var resValues = new double[rows, cols];
-
-            for (var i = 0; i < rows; ++i) {
-                for (var j = 0; j < cols; ++j) {
-                    resValues[i, j] = matrix1.values[i, j] + matrix2.values[i, j];
-                    resValues[i, j] *= coeff;
+            for (var i = 0; i < matrix.Rows; ++i) {
+                for (var j = 0; j < matrix.Cols; ++j) {
+                    matrix.Values[i, j] *= coeff;
                 }
             }
-            return resValues;
+            return matrix;
         }
-        public double[,] subtraction(Matrix matrix1, Matrix matrix2) {
+        public static Matrix operator *(double coeff, Matrix matrix) {
 
-            var resValues = new double[rows, cols];
-
-            for (var i = 0; i < rows; ++i) {
-                for (var j = 0; j < cols; ++j) {
-                    resValues[i, j] = matrix1.values[i, j] - matrix2.values[i, j];
-                    resValues[i, j] *= coeff;
+            for (var i = 0; i < matrix.Rows; ++i) {
+                for (var j = 0; j < matrix.Cols; ++j) {
+                    matrix.Values[i, j] *= coeff;
                 }
             }
-            return resValues;
+            return matrix;
         }
+        public override string ToString() {
 
+            string res = "";
+            for (int i = 0; i < Rows; ++i) {
+                for (int j = 0; j < Cols; ++j) {
+                    res += Values[i, j] + "\t";
+                }
+                res += "\r\n";
+                
+            }
+            return res;
+        }
     }
 }
