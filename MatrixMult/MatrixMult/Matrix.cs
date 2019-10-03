@@ -3,7 +3,11 @@
 namespace MatrixMult {
     public class Matrix {
 
-        public Matrix() {} // Just for inizialization 
+        public Matrix() {
+            this.Rows = 1;
+            this.Cols = 1;
+            Values = new double[1, 1] { { 0 } };
+        }
         public Matrix(int Rows, int Cols) {
             this.Rows = Rows;
             this.Cols = Cols;
